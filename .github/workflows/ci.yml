@@ -8,7 +8,7 @@ on:
       fail:
         description: "Fail the run (for red badge demo)"
         required: false
-        default: "false"
+        default: "true"
 
 jobs:
   demo:
