@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      fail:
+        description: "Fail the run (for red badge demo)"
+        required: false
+        default: "false"
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Passing by default
+        run: echo "✅ CI demo passed"
+
+      - name: Force failure (only on manual run)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.fail == 'true' }}
+        run: |
+          echo "❌ Failing on purpose for badge demonstration"
+          exit 1
