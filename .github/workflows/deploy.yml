@@ -1,0 +1,43 @@
+name: Deploy (Demo)
+
+on:
+  push:
+    branches: [develop]          # deploy staging on develop pushes
+    tags: ["v*"]                 # deploy production on version tags like v1.0.0
+  workflow_dispatch:             # manual runs also supported
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build (demo)
+        run: echo "✅ Build step completed"
+
+  deploy_staging:
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://staging.example.com
+    steps:
+      - name: Deploy to staging (demo)
+        run: |
+          echo "🚀 Deploying to STAGING..."
+          sleep 3
+          echo "✅ Staging deploy complete"
+
+  deploy_production:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://example.com
+    steps:
+      - name: Deploy to production (demo)
+        run: |
+          echo "🚀 Deploying to PRODUCTION..."
+          sleep 3
+          echo "✅ Production deploy complete (after approval)"
