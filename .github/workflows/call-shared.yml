@@ -1,0 +1,16 @@
+name: Call Shared Build
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  call:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use reusable workflow in Repo B
+        uses: GHLabs101/Repo-B-Lab-64/.github/workflows/reusable-build.yml@main
+        with:
+          run-tests: true
+        secrets: inherit
